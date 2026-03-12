@@ -1,0 +1,18 @@
+# Secrets
+.env
+
+# Python
+.venv/
+__pycache__/
+*.pyc
+*.pyo
+
+# Temp files
+/tmp/
+*.capture
+
+# Work outputs
+outputs/
+
+# Claude Code
+.claude/

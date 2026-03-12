@@ -1,0 +1,12 @@
+[Unit]
+Description=Claude Wake-Up Telegram Bot
+
+[Service]
+Environment=PATH=/home/axect/.cargo/bin:/home/axect/.local/bin:/usr/local/bin:/usr/bin:/bin
+ExecStart=/home/axect/Documents/Project/AI_Project/claude-wake-up/.venv/bin/python bot.py
+WorkingDirectory=/home/axect/Documents/Project/AI_Project/claude-wake-up
+Restart=on-failure
+RestartSec=5
+
+[Install]
+WantedBy=default.target
